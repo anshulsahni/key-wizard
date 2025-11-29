@@ -14,39 +14,29 @@ export class Navigator {
    * Scan the DOM for search results and cache them
    */
   scanResults(): SearchResult[] {
-    // Try multiple selectors for Google search results (Google changes their DOM structure)
-    const selectors = [
-      'div.g', // Standard Google results
-      'div[data-ved]', // Results with data-ved attribute
-      'div.tF2Cxc', // Alternative class name
-      'div[jscontroller]', // Results with jscontroller
-    ];
+    // Use data-rpos attribute which Google uses to mark search result positions
+    const containers = document.querySelectorAll<HTMLElement>(SELECTORS.RESULT_CONTAINER);
 
-    let containers: NodeListOf<HTMLElement> | null = null;
-    for (const selector of selectors) {
-      containers = document.querySelectorAll<HTMLElement>(selector);
-      if (containers.length > 0) {
-        console.log(`Key Wizard: Using selector "${selector}"`);
-        break;
-      }
-    }
-
-    if (!containers || containers.length === 0) {
+    if (containers.length === 0) {
+      console.warn('Key Wizard: No elements with data-rpos found. Make sure you are on a Google search results page.');
       this.results = [];
       return this.results;
     }
 
+    console.log(`Key Wizard: Found ${containers.length} elements with data-rpos`);
+
     this.results = [];
 
     containers.forEach((container, index) => {
-      // Look for link in various ways
-      const linkElement = container.querySelector<HTMLAnchorElement>('a[href]') ||
-                         container.closest('a[href]') as HTMLAnchorElement;
+      // Find the main link in the result container
+      const linkElement = container.querySelector<HTMLAnchorElement>('a[href]');
+      
+      // Find the title (h3, h2, or heading role)
       const h3Element = container.querySelector('h3') ||
                        container.querySelector('h2') ||
                        container.querySelector('[role="heading"]');
 
-      // Only include results that have both a link and a title
+      // Only include results that have both a link and a title, and exclude Google internal links
       if (linkElement && h3Element && linkElement.href && !linkElement.href.includes('google.com/search')) {
         this.results.push({
           element: container,
@@ -56,6 +46,7 @@ export class Navigator {
       }
     });
 
+    console.log(`Key Wizard: Parsed ${this.results.length} valid search results`);
     return this.results;
   }
 

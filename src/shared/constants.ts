@@ -1,8 +1,8 @@
 import type { KeyBinding } from './types';
 
 export const SELECTORS = {
-  RESULT_CONTAINER: 'div.g',
-  RESULT_LINK: 'div.g a h3',
+  RESULT_CONTAINER: '[data-rpos]',
+  RESULT_LINK: '[data-rpos] a[href]',
   SEARCH_INPUT: 'input[name="q"]',
 } as const;
 
