@@ -15,7 +15,7 @@ export default defineConfig({
           dest: 'icons',
         },
       ],
-    }),
+    }) as any,
   ],
   build: {
     outDir: 'dist',
@@ -37,8 +37,18 @@ export default defineConfig({
           }
           return assetInfo.name || 'assets/[name].[ext]';
         },
+        // Use IIFE format to avoid ES module imports in content scripts
+        format: 'iife',
+        name: 'KeyWizard',
+        // Force all code into entry chunks - prevent code splitting
+        manualChunks: (id) => {
+          // Don't create separate chunks - bundle everything with entries
+          // This ensures content.js has no external imports
+          return null;
+        },
       },
     },
+    chunkSizeWarningLimit: 1000,
   },
   resolve: {
     alias: {
@@ -46,4 +56,3 @@ export default defineConfig({
     },
   },
 });
-
