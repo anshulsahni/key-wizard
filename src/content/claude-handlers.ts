@@ -148,3 +148,10 @@ export function toggleResearchOption(): void {
   );
 }
 
+/**
+ * Navigate to the projects page
+ */
+export function navigateToProjects(): void {
+  window.location.href = "https://claude.ai/projects?search=";
+}
+

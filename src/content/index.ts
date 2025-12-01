@@ -2,7 +2,11 @@ import { Navigator } from './navigator';
 import { getSettings } from '../shared/storage';
 import type { KeyBinding, SiteType, Settings } from '../shared/types';
 import { ShortcutRegistry } from './shortcut-registry';
-import { openModelDropdown, toggleResearchOption } from './claude-handlers';
+import {
+  openModelDropdown,
+  toggleResearchOption,
+  navigateToProjects,
+} from "./claude-handlers";
 import './styles.css';
 
 let navigator: Navigator | null = null;
@@ -135,10 +139,24 @@ function initClaudeShortcuts(): void {
     handler: toggleResearchOption,
   });
 
+  // Register Ctrl+Shift+P / Cmd+Shift+P to navigate to projects page
+  shortcutRegistry.register({
+    id: "navigate-projects",
+    description: "Navigate to projects page",
+    combos: [
+      { key: "P", ctrl: true, shift: true }, // Ctrl+Shift+P (Windows/Linux)
+      { key: "P", meta: true, shift: true }, // Cmd+Shift+P (Mac)
+    ],
+    handler: navigateToProjects,
+  });
+
   console.log("Key Wizard: Claude.ai shortcuts registered");
   console.log("Key Wizard: Press Ctrl+M (Cmd+' on Mac) to open model dropdown");
   console.log(
     "Key Wizard: Press Ctrl+Shift+. (Cmd+Shift+. on Mac) to toggle research option"
+  );
+  console.log(
+    "Key Wizard: Press Ctrl+Shift+P (Cmd+Shift+P on Mac) to navigate to projects"
   );
 }
 
