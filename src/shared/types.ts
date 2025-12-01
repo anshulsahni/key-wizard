@@ -14,3 +14,20 @@ export interface SearchResult {
   index: number;
 }
 
+export interface ShortcutCombo {
+  key: string; // e.g., 'M', '.', 'Enter'
+  ctrl?: boolean;
+  shift?: boolean;
+  alt?: boolean;
+  meta?: boolean; // Cmd on Mac
+}
+
+export interface ShortcutDefinition {
+  id: string;
+  description?: string;
+  combos: ShortcutCombo[];
+  handler: () => void | Promise<void>;
+}
+
+export type SiteType = 'google' | 'claude' | 'unknown';
+

@@ -16,7 +16,9 @@
     "*://www.google.de/*",
     "*://www.google.fr/*",
     "*://www.google.co.jp/*",
-    "*://www.google.co.in/*"
+    "*://www.google.co.in/*",
+    "*://claude.ai/*",
+    "*://*.claude.ai/*"
   ],
   "content_scripts": [
     {
@@ -28,7 +30,9 @@
         "*://www.google.de/search*",
         "*://www.google.fr/search*",
         "*://www.google.co.jp/search*",
-        "*://www.google.co.in/search*"
+        "*://www.google.co.in/search*",
+        "*://claude.ai/*",
+        "*://*.claude.ai/*"
       ],
       "js": ["content.js"],
       "css": ["content.css"],
