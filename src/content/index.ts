@@ -14,15 +14,15 @@ let settingsLoaded = false;
  */
 function detectSite(): SiteType {
   const hostname = window.location.hostname.toLowerCase();
-  
-  if (hostname.includes('google.com') || hostname.includes('google.')) {
-    return 'google';
+
+  if (hostname.includes("google.com") || hostname.includes("google.")) {
+    return "google";
   }
-  
+
   if (hostname.includes('claude.ai')) {
     return 'claude';
   }
-  
+
   return 'unknown';
 }
 
@@ -113,31 +113,33 @@ function handleKeyDown(event: KeyboardEvent): void {
 function initClaudeShortcuts(): void {
   shortcutRegistry = new ShortcutRegistry();
 
-  // Register Ctrl+M / Cmd+M to open model dropdown
+  // Register Ctrl+M / Cmd+' to open model dropdown
   shortcutRegistry.register({
-    id: 'open-model',
-    description: 'Open model dropdown',
+    id: "open-model",
+    description: "Open model dropdown",
     combos: [
-      { key: 'M', ctrl: true },      // Ctrl+M (Windows/Linux)
-      { key: 'M', meta: true },       // Cmd+M (Mac)
+      { key: "M", ctrl: true }, // Ctrl+M (Windows/Linux)
+      { key: "'", meta: true }, // Cmd+' (Mac) - using ' instead of M to avoid minimize conflict
     ],
     handler: openModelDropdown,
   });
 
   // Register Ctrl+Shift+. / Cmd+Shift+. to toggle research option
   shortcutRegistry.register({
-    id: 'toggle-research',
-    description: 'Toggle research option',
+    id: "toggle-research",
+    description: "Toggle research option",
     combos: [
-      { key: '.', ctrl: true, shift: true },      // Ctrl+Shift+. (Windows/Linux)
-      { key: '.', meta: true, shift: true },       // Cmd+Shift+. (Mac)
+      { key: ".", ctrl: true, shift: true }, // Ctrl+Shift+. (Windows/Linux)
+      { key: ".", meta: true, shift: true }, // Cmd+Shift+. (Mac)
     ],
     handler: toggleResearchOption,
   });
 
-  console.log('Key Wizard: Claude.ai shortcuts registered');
-  console.log('Key Wizard: Press Ctrl+M (Cmd+M on Mac) to open model dropdown');
-  console.log('Key Wizard: Press Ctrl+Shift+. (Cmd+Shift+. on Mac) to toggle research option');
+  console.log("Key Wizard: Claude.ai shortcuts registered");
+  console.log("Key Wizard: Press Ctrl+M (Cmd+' on Mac) to open model dropdown");
+  console.log(
+    "Key Wizard: Press Ctrl+Shift+. (Cmd+Shift+. on Mac) to toggle research option"
+  );
 }
 
 /**

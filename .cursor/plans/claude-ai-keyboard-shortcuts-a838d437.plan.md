@@ -57,7 +57,7 @@ Extend `src/shared/types.ts` to include:
 
 ### Key Combinations
 
-- `Ctrl+M` / `Cmd+M` (Mac) - Open model dropdown
+- `Ctrl+M` / `Cmd+'` (Mac) - Open model dropdown (using `'` instead of `M` on Mac to avoid minimize conflict)
 - `Ctrl+Shift+.` / `Cmd+Shift+.` (Mac) - Toggle research option
 
 ### Element Detection Strategy
@@ -84,9 +84,9 @@ registry.register({
 
 ### To-dos
 
-- [ ] Create shortcut-registry.ts with register/unregister methods and key combination matching logic
-- [ ] Create claude-handlers.ts with openModelDropdown() and toggleResearchOption() functions using generic element detection
-- [ ] Add shortcut registry types to shared/types.ts (ShortcutCombo, ShortcutDefinition, etc.)
-- [ ] Add Claude.ai host permissions and content script matches to manifest.json
-- [ ] Update content/index.ts to detect site (Google vs Claude.ai) and initialize appropriate shortcut registry
-- [ ] Register Ctrl+M and Ctrl+Shift+. shortcuts in content/index.ts for Claude.ai
+- [x] Create shortcut-registry.ts with register/unregister methods and key combination matching logic
+- [x] Create claude-handlers.ts with openModelDropdown() and toggleResearchOption() functions using generic element detection
+- [x] Add shortcut registry types to shared/types.ts (ShortcutCombo, ShortcutDefinition, etc.)
+- [x] Add Claude.ai host permissions and content script matches to manifest.json
+- [x] Update content/index.ts to detect site (Google vs Claude.ai) and initialize appropriate shortcut registry
+- [x] Register Ctrl+M and Ctrl+Shift+. shortcuts in content/index.ts for Claude.ai
