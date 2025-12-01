@@ -33,19 +33,20 @@ function detectSite(): SiteType {
 
 /**
  * Check if user is currently typing in an input field
+ * TODO: Re-enable this function later if input focus checks are needed
  */
-function isInputFocused(): boolean {
-  const activeElement = document.activeElement;
-  if (!activeElement) {
-    return false;
-  }
-
-  const tagName = activeElement.tagName.toLowerCase();
-  const isInput = tagName === 'input' || tagName === 'textarea';
-  const isContentEditable = activeElement.hasAttribute('contenteditable');
-
-  return isInput || isContentEditable;
-}
+// function isInputFocused(): boolean {
+//   const activeElement = document.activeElement;
+//   if (!activeElement) {
+//     return false;
+//   }
+//
+//   const tagName = activeElement.tagName.toLowerCase();
+//   const isInput = tagName === 'input' || tagName === 'textarea';
+//   const isContentEditable = activeElement.hasAttribute('contenteditable');
+//
+//   return isInput || isContentEditable;
+// }
 
 /**
  * Check if a key matches a binding for a specific action
@@ -72,17 +73,23 @@ function handleKeyDown(event: KeyboardEvent): void {
     return;
   }
 
-  // Skip if user is typing in an input field
-  if (isInputFocused()) {
-    return;
-  }
-
   const site = detectSite();
 
   // Handle Claude.ai shortcuts via registry
-  if (site === 'claude' && shortcutRegistry) {
+  if (site === "claude" && shortcutRegistry) {
     const matchedShortcut = shortcutRegistry.matches(event);
     if (matchedShortcut) {
+      // Navigation shortcuts should work even when input is focused
+      // const isNavigationShortcut =
+      //   matchedShortcut.id === "navigate-projects" ||
+      //   matchedShortcut.id === "navigate-new-project";
+
+      // Skip other shortcuts if user is typing in an input field
+      // TODO: Re-enable input focus check later if needed
+      // if (!isNavigationShortcut && isInputFocused()) {
+      //   return;
+      // }
+
       event.preventDefault();
       event.stopPropagation();
       matchedShortcut.handler();
@@ -90,21 +97,27 @@ function handleKeyDown(event: KeyboardEvent): void {
     }
   }
 
+  // Skip if user is typing in an input field (for Google search navigation)
+  // TODO: Re-enable input focus check later if needed
+  // if (isInputFocused()) {
+  //   return;
+  // }
+
   // Handle Google search navigation
-  if (site === 'google' && navigator) {
+  if (site === "google" && navigator) {
     const key = event.key;
     const currentSettings = navigator.getSettings();
 
     // Check each action and handle accordingly
-    if (matchesBinding(key, currentSettings.bindings, 'next')) {
+    if (matchesBinding(key, currentSettings.bindings, "next")) {
       event.preventDefault();
       event.stopPropagation();
       navigator.next();
-    } else if (matchesBinding(key, currentSettings.bindings, 'previous')) {
+    } else if (matchesBinding(key, currentSettings.bindings, "previous")) {
       event.preventDefault();
       event.stopPropagation();
       navigator.previous();
-    } else if (matchesBinding(key, currentSettings.bindings, 'activate')) {
+    } else if (matchesBinding(key, currentSettings.bindings, "activate")) {
       event.preventDefault();
       event.stopPropagation();
       navigator.activate();
