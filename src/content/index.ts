@@ -6,6 +6,7 @@ import {
   openModelDropdown,
   toggleResearchOption,
   navigateToProjects,
+  navigateToNewProject,
 } from "./claude-handlers";
 import './styles.css';
 
@@ -150,6 +151,17 @@ function initClaudeShortcuts(): void {
     handler: navigateToProjects,
   });
 
+  // Register Ctrl+Shift+O / Cmd+Shift+O to navigate to new project page
+  shortcutRegistry.register({
+    id: "navigate-new-project",
+    description: "Navigate to new project page",
+    combos: [
+      { key: "O", ctrl: true, shift: true }, // Ctrl+Shift+O (Windows/Linux)
+      { key: "O", meta: true, shift: true }, // Cmd+Shift+O (Mac)
+    ],
+    handler: navigateToNewProject,
+  });
+
   console.log("Key Wizard: Claude.ai shortcuts registered");
   console.log("Key Wizard: Press Ctrl+M (Cmd+' on Mac) to open model dropdown");
   console.log(
@@ -157,6 +169,9 @@ function initClaudeShortcuts(): void {
   );
   console.log(
     "Key Wizard: Press Ctrl+Shift+P (Cmd+Shift+P on Mac) to navigate to projects"
+  );
+  console.log(
+    "Key Wizard: Press Ctrl+Shift+O (Cmd+Shift+O on Mac) to navigate to new project"
   );
 }
 

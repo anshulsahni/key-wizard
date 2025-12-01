@@ -155,3 +155,10 @@ export function navigateToProjects(): void {
   window.location.href = "https://claude.ai/projects?search=";
 }
 
+/**
+ * Navigate to the new project page
+ */
+export function navigateToNewProject(): void {
+  window.location.href = "https://claude.ai/projects/create";
+}
+
