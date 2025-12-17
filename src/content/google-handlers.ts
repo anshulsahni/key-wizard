@@ -6,6 +6,7 @@
 
 import { Navigator } from './navigator';
 import type { KeyBinding, Settings } from '../shared/types';
+import { SELECTORS } from "../shared/constants";
 
 let navigator: Navigator | null = null;
 
@@ -15,7 +16,7 @@ let navigator: Navigator | null = null;
 function matchesBinding(
   key: string,
   bindings: KeyBinding[],
-  action: 'next' | 'previous' | 'activate'
+  action: "next" | "previous" | "activate"
 ): boolean {
   const binding = bindings.find((b) => b.action === action);
   if (!binding) {
@@ -26,10 +27,44 @@ function matchesBinding(
 }
 
 /**
+ * Check if the search input is currently focused
+ */
+function isSearchInputFocused(): boolean {
+  const activeElement = document.activeElement;
+  if (!activeElement) {
+    return false;
+  }
+
+  // Check if the active element is the search input
+  const searchInput = document.querySelector(SELECTORS.SEARCH_INPUT);
+  if (searchInput && activeElement === searchInput) {
+    return true;
+  }
+
+  // Also check if it's any input or textarea (for safety)
+  const tagName = activeElement.tagName.toLowerCase();
+  if (tagName === "input" || tagName === "textarea") {
+    return true;
+  }
+
+  // Check for contenteditable elements
+  if (activeElement.hasAttribute("contenteditable")) {
+    return true;
+  }
+
+  return false;
+}
+
+/**
  * Handle Google keyboard events
  */
 export function handleGoogleKeyDown(event: KeyboardEvent): void {
   if (!navigator) {
+    return;
+  }
+
+  // Skip shortcuts if user is typing in the search input
+  if (isSearchInputFocused()) {
     return;
   }
 
